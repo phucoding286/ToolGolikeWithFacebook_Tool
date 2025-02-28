@@ -1,0 +1,5 @@
+colorama
+selenium
+undetected-chromedriver
+webdriver-manager
+copy
