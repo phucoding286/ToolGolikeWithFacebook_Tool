@@ -13,4 +13,4 @@
 5. sau khi vào tool hãy gõ vào tùy chọn thêm phiên trước khi nhấn vào tùy chọn chạy, sau khi nhấn vào thêm phiên, bạn hãy đăng nhập vào tài khoản facebook/golike rồi thiết lập phần job là tài khoản facebook tương ứng trong ```https://app.golike.net/jobs/facebook/```
 # Hướng dẫn sử dụng
 - trước khi chạy yếu cầu cài đặt bản python3.11 và các thư viện phụ thuộc
-- để chạy hãy nhấp đúp vào file main.bat
+- để chạy hãy nhấp đúp vào file `main.bat`
