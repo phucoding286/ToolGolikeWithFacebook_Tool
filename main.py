@@ -170,12 +170,12 @@ def __run(data, wait, max_times_for_interaction):
                         ensure_ascii=False,
                         indent=4
                     )
-
-        print(system_color(f"[#] Phiên đang chạy hiện tại là -> {session_name}"))
-        driver = driver_init(user_data_path)
-        load_cookies(driver, session_name)
-
+        
         try:
+            print(system_color(f"[#] Phiên đang chạy hiện tại là -> {session_name}"))
+            driver = driver_init(user_data_path)
+            load_cookies(driver, session_name)
+
             r = __main(driver, wait, session_name, max_times_for_interaction)
             error_unknown_counter = 0
             if r == "giới hạn số lần tương tác mỗi phiên":
