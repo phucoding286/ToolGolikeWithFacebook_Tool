@@ -41,22 +41,6 @@ def disconnect_vpn(driver):
 def like(driver):
     window_handles = driver.window_handles
     driver.switch_to.window(window_handles[-1])
-    
-    driver.execute_script("window.open();")
-    window_handles = driver.window_handles
-    driver.switch_to.window(window_handles[-1])
-
-    try:
-        r = change_vpn(driver)
-    except:
-        pass
-
-    driver.close()
-
-    time.sleep(1)
-
-    window_handles = driver.window_handles
-    driver.switch_to.window(window_handles[-1])
 
     try:
 
@@ -89,6 +73,14 @@ def like(driver):
                     pass
                 
                 time.sleep(2)
+
+                try:
+                    r = change_vpn(driver)
+                except:
+                    pass
+
+                time.sleep(1)
+                driver.get(link)
                 
                 try:
                     like_btn = WebDriverWait(driver, 10).until(
@@ -122,6 +114,14 @@ def like(driver):
                     pass
 
                 time.sleep(2)
+
+                try:
+                    r = change_vpn(driver)
+                except:
+                    pass
+
+                time.sleep(1)
+                driver.get(link)
                 
                 try:
                     like_btn = WebDriverWait(driver, 10).until(
