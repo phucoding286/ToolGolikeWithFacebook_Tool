@@ -16,6 +16,7 @@ max_limit_sum_error = 5
 max_times_error_unknown = 4
 error_unknown_counter = 0
 sum_errors_count = {}
+total_price = 0
 
 # ----------------------------------------------------------------------
 
@@ -39,6 +40,7 @@ if hist_day['day'] == 0:
 
 def __main(driver, wait, session_name, max_times_for_interaction=10):
     global sum_errors_count
+    global total_price
     interaction_count = 0
     while True:
 
@@ -106,6 +108,8 @@ def __main(driver, wait, session_name, max_times_for_interaction=10):
                 sum_errors_count[session_name] = 1
 
             print(success_color(f"[$] Đã xác minh job {wait}s ... "))
+            total_price += 35
+            print(success_color(f"[$] Tổng thu nhập {total_price}đ ... "))
             waiting_ui(wait, f"[#] Vui lòng đợi {wait}s")
 
             driver.execute_script("window.open();")
@@ -274,6 +278,8 @@ def add_new_session():
 
     facebook_login(driver)
     golike_login(driver)
+    driver.get("https://chromewebstore.google.com/detail/urban-vpn-proxy/eppiocemhmnlbhjplcgkofciiegomcon")
+    input(system_color("[?] Tải extension urban-vpn về và nhấn enter\n-> "))
     
     data["data"][session_name] = path + "\\" + session_name
     json.dump(data, open(sessions_manager_file, "w", encoding="utf-8"), ensure_ascii=False, indent=4)

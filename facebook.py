@@ -1,11 +1,53 @@
 from modules import *
 from scroll_facebook import scroll_facebook, continue_scroll
+import random
 
 def facebook_login(driver):
     driver.get("https://facebook.com/")
     input(system_color("[?] Hãy nhập username và mật khẩu của bạn và nhấn đăng nhập\n-> "))
 
+def change_vpn(driver: webdriver.Chrome):
+    driver.get("chrome-extension://eppiocemhmnlbhjplcgkofciiegomcon/popup/index.html")
+    
+    check_time = WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.XPATH, "//span[@class='timer main-page__timer']")))
+    if check_time.text != "00 : 00 : 00":
+        stop_btn = WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.XPATH, "//div[@class='play-button play-button--pause']")))
+        stop_btn.click()
+
+    server_vpn = WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.XPATH, "//input[@class='select-location__input']")))
+    server_vpn.click()
+
+    server_list_rdn = WebDriverWait(driver, 10).until(EC.presence_of_all_elements_located(
+        (By.XPATH, "//p[@class='locations__item-name']")
+    ))
+    server_list_rdn[random.randrange(0, 4)].click()
+    
+    for _ in range(10):
+        check_time = WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.XPATH, "//span[@class='timer main-page__timer']")))
+        if check_time.text == "00 : 00 : 00":
+            time.sleep(1)
+            continue
+        else:
+            break
+    return "timeout_connect"
+
+def disconnect_vpn(driver):
+    driver.get("chrome-extension://eppiocemhmnlbhjplcgkofciiegomcon/popup/index.html")
+    check_time = WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.XPATH, "//span[@class='timer main-page__timer']")))
+    if check_time.text != "00 : 00 : 00":
+        stop_btn = WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.XPATH, "//div[@class='play-button play-button--pause']")))
+        stop_btn.click()
+
 def like(driver):
+    window_handles = driver.window_handles
+    driver.switch_to.window(window_handles[-1])
+    
+    driver.execute_script("window.open();")
+    window_handles = driver.window_handles
+    driver.switch_to.window(window_handles[-1])
+    r = change_vpn(driver)
+    driver.close()
+
     window_handles = driver.window_handles
     driver.switch_to.window(window_handles[-1])
 
@@ -25,6 +67,7 @@ def like(driver):
                 )
                 print(system_color(f"[>] Số lượng phần tử tương tác trong ô -> {len(check_tt_cell)}"))
                 if len(check_tt_cell) < 7:
+                    disconnect_vpn(driver)
                     driver.close()
                     return {"error": "like thất bại"}
                 
@@ -88,24 +131,28 @@ def like(driver):
                 driver.execute_script("arguments[0].click()", like_btn[0])
 
             else:
+                disconnect_vpn(driver)
                 driver.close()
                 return {"error": "like thất bại"}
 
             time.sleep(1)
 
         except:
+            disconnect_vpn(driver)
             driver.close()
             return {"error": "like thất bại"}
         
+        disconnect_vpn(driver)
         driver.close()
         return {"success": "like thành công"}
     
     except:
+        disconnect_vpn(driver)
         driver.close()
         return {"error": "like thất bại"}
     
 if __name__ == "__main__":
-    driver = driver_init()
+    driver = driver_init(r"E:\MySRC\golike-tools\golike-facebook-selenium\acc1")
     input(">>> ")
     print(like(driver))
     input(">>> ")
