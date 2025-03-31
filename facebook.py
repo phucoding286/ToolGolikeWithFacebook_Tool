@@ -45,8 +45,12 @@ def like(driver):
     driver.execute_script("window.open();")
     window_handles = driver.window_handles
     driver.switch_to.window(window_handles[-1])
-    r = change_vpn(driver)
-    driver.close()
+
+    try:
+        r = change_vpn(driver)
+        driver.close()
+    except:
+        driver.close()
 
     window_handles = driver.window_handles
     driver.switch_to.window(window_handles[-1])
@@ -67,7 +71,10 @@ def like(driver):
                 )
                 print(system_color(f"[>] Số lượng phần tử tương tác trong ô -> {len(check_tt_cell)}"))
                 if len(check_tt_cell) < 7:
-                    disconnect_vpn(driver)
+                    try:
+                        disconnect_vpn(driver)
+                    except:
+                        pass
                     driver.close()
                     return {"error": "like thất bại"}
                 
@@ -131,23 +138,35 @@ def like(driver):
                 driver.execute_script("arguments[0].click()", like_btn[0])
 
             else:
-                disconnect_vpn(driver)
+                try:
+                    disconnect_vpn(driver)
+                except:
+                    pass
                 driver.close()
                 return {"error": "like thất bại"}
 
             time.sleep(1)
 
         except:
-            disconnect_vpn(driver)
+            try:
+                disconnect_vpn(driver)
+            except:
+                pass
             driver.close()
             return {"error": "like thất bại"}
         
-        disconnect_vpn(driver)
+        try:
+            disconnect_vpn(driver)
+        except:
+            pass
         driver.close()
         return {"success": "like thành công"}
     
     except:
-        disconnect_vpn(driver)
+        try:
+            disconnect_vpn(driver)
+        except:
+            pass
         driver.close()
         return {"error": "like thất bại"}
     
