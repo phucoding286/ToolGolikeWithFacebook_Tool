@@ -48,9 +48,12 @@ def like(driver):
 
     try:
         r = change_vpn(driver)
-        driver.close()
     except:
-        driver.close()
+        pass
+
+    driver.close()
+
+    time.sleep(1)
 
     window_handles = driver.window_handles
     driver.switch_to.window(window_handles[-1])
