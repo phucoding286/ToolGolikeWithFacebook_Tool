@@ -2,6 +2,8 @@ import undetected_chromedriver as webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.common.action_chains import ActionChains
+from selenium.webdriver.common.keys import Keys
 import pickle
 
 import copy
@@ -19,13 +21,13 @@ def driver_init(chrome_user_data=None):
     options = webdriver.ChromeOptions() 
     options.add_argument("--log-level=3")
     options.add_argument("--disable-popup-blocking")
+    options.add_argument("--window-position=1050,0")
 
     if chrome_user_data is not None:
         options.add_argument(f"--user-data-dir={chrome_user_data}")
 
     driver = webdriver.Chrome(options=options)
     driver.set_window_size(50, 500)
-    driver.set_page_load_timeout(10000)
     return driver
 
 # make color for logs

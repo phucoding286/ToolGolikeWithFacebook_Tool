@@ -6,38 +6,6 @@ def facebook_login(driver):
     driver.get("https://facebook.com/")
     input(system_color("[?] Hãy nhập username và mật khẩu của bạn và nhấn đăng nhập\n-> "))
 
-def change_vpn(driver: webdriver.Chrome):
-    driver.get("chrome-extension://eppiocemhmnlbhjplcgkofciiegomcon/popup/index.html")
-    
-    check_time = WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.XPATH, "//span[@class='timer main-page__timer']")))
-    if check_time.text != "00 : 00 : 00":
-        stop_btn = WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.XPATH, "//div[@class='play-button play-button--pause']")))
-        stop_btn.click()
-
-    server_vpn = WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.XPATH, "//input[@class='select-location__input']")))
-    server_vpn.click()
-
-    server_list_rdn = WebDriverWait(driver, 10).until(EC.presence_of_all_elements_located(
-        (By.XPATH, "//p[@class='locations__item-name']")
-    ))
-    server_list_rdn[random.randrange(0, 4)].click()
-    
-    for _ in range(10):
-        check_time = WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.XPATH, "//span[@class='timer main-page__timer']")))
-        if check_time.text == "00 : 00 : 00":
-            time.sleep(1)
-            continue
-        else:
-            break
-    return "timeout_connect"
-
-def disconnect_vpn(driver):
-    driver.get("chrome-extension://eppiocemhmnlbhjplcgkofciiegomcon/popup/index.html")
-    check_time = WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.XPATH, "//span[@class='timer main-page__timer']")))
-    if check_time.text != "00 : 00 : 00":
-        stop_btn = WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.XPATH, "//div[@class='play-button play-button--pause']")))
-        stop_btn.click()
-
 def like_permalink_post(driver, link, like_type="like"): #like type (tim, haha, sad..vv)
     check_tt_cell = WebDriverWait(driver, 10).until(
         EC.presence_of_all_elements_located(
@@ -52,13 +20,6 @@ def like_permalink_post(driver, link, like_type="like"): #like type (tim, haha, 
         continue_scroll(driver, 0, 250)
         time.sleep(1)
         continue_scroll(driver, 250, 500)
-    except:
-        pass
-                
-    time.sleep(2)
-
-    try:
-        r = change_vpn(driver)
     except:
         pass
 
@@ -88,13 +49,6 @@ def like_watch(driver, link):
     except:
         pass
 
-    time.sleep(2)
-
-    try:
-        r = change_vpn(driver)
-    except:
-        pass
-
     time.sleep(1)
     driver.get(link)
                 
@@ -113,13 +67,6 @@ def like_photo(driver, link):
         continue_scroll(driver, 0, 250)
         time.sleep(1)
         continue_scroll(driver, 250, 500)
-    except:
-        pass
-                
-    time.sleep(2)
-
-    try:
-        r = change_vpn(driver)
     except:
         pass
 
@@ -148,13 +95,6 @@ def like_video(driver, link):
         continue_scroll(driver, 0, 250)
         time.sleep(1)
         continue_scroll(driver, 250, 500)
-    except:
-        pass
-                
-    time.sleep(2)
-
-    try:
-        r = change_vpn(driver)
     except:
         pass
 
@@ -211,25 +151,13 @@ def like(driver):
             time.sleep(1)
 
         except:
-            try:
-                disconnect_vpn(driver)
-            except:
-                pass
             driver.close()
             return {"error": "like thất bại"}
         
-        try:
-            disconnect_vpn(driver)
-        except:
-            pass
         driver.close()
         return {"success": "like thành công"}
     
     except:
-        try:
-            disconnect_vpn(driver)
-        except:
-            pass
         driver.close()
         return {"error": "like thất bại"}
     
