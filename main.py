@@ -239,6 +239,11 @@ def __run(data, wait, max_times_for_interaction):
                 driver.quit()
             except:
                 pass
+            try:
+                r = requests.get("https://www.google.com/")
+            except:
+                print(error_color("\n[!] Không có mạng!"))
+                input(system_color("[!] Phát hiện không có mạng, chương trình tạm dừng, chờ can thiệp, enter để tiếp tục chạy\n-> "))
             continue
 
 # ---------------------------------------------------------------------------------------
