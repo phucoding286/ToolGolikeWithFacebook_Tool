@@ -84,7 +84,6 @@ def check_video(link):
 
 def like(driver: webdriver.Chrome, link):
     try:
-        driver.get(link)
         link = driver.current_url
 
         try:
@@ -114,6 +113,7 @@ def like(driver: webdriver.Chrome, link):
         except:
             return {"error": "like thất bại"}
         return {"success": "like thành công"}
+    
     except:
         return {"error": "like thất bại"}
     

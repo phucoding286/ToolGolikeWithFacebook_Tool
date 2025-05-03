@@ -91,36 +91,44 @@ def load_cookies(driver, cookie_f_name="session_name"):
 
 
 def __run(driver: webdriver.Chrome):
+    try:
+        # đi đến trang chủ facebook và thực hiện mô phỏng
+        driver.get("https://www.facebook.com/")
+        simulator(driver)
+    except:
+        pass
+
+    # mở tab mới để làm nhiệm vụ
+    driver.execute_script("window.open();")
+    handles = driver.window_handles
+    driver.switch_to.window(handles[1])
+
     rgj = get_job(driver) # nhận job
     # check job lỗi
     if "error" in rgj:
         return "job_err"
     link = rgj['success'] # lấy link job
-    print(purple_color(f"Mục tiêu: {link}"))
-    # mở tab trình duyệt mới
-    driver.execute_script("window.open();")
+    print(purple_color(f"[>] Mục tiêu: {link}"))
     handles = driver.window_handles
-    driver.switch_to.window(handles[1])
-    # đi đến trang chủ facebook và thực hiện mô phỏng
-    driver.get("https://www.facebook.com/")
-    simulator(driver)
+    driver.switch_to.window(handles[2])
+
     # đi đến bài viết và like
     rlk = like(driver, link)
     # trở về trang nhận job ban đầu
     driver.close()
     handles = driver.window_handles
-    driver.switch_to.window(handles[0])
+    driver.switch_to.window(handles[1])
 
     if "error" in rlk:
-        try: [drop_job(driver), print(success_color("Đã bỏ job thành công"))]
-        except: print(success_color("Đã bỏ job thất bại"))
+        try: [drop_job(driver), print(success_color("[*] Đã bỏ job thành công"))]
+        except: print(success_color("[!] Đã bỏ job thất bại"))
         return "like_err"
     else:
-        print(success_color("Like thành công"))
+        print(success_color("[*] Like thành công"))
         rvj = verify_job(driver)
         if "error" in rvj:
-            try: [drop_job(driver), print(success_color("Đã bỏ job thành công"))]
-            except: print(success_color("Đã bỏ job thất bại"))
+            try: [drop_job(driver), print(success_color("[*] Đã bỏ job thành công"))]
+            except: print(success_color("[!] Đã bỏ job thất bại"))
             return "verify_err"
         else:
             return "success"
@@ -130,21 +138,21 @@ def __main(hide_chrome, delay):
     data = json.load(open(sessions_manager_file))['data']
     for ss_name, ss_path in data.items():
         try:
-            print(system_color(f"Phiên đang chạy là: {ss_name}"))
+            print(system_color(f"[>] Phiên đang chạy là: {ss_name}"))
             driver = driver_init(ss_path, hide_chrome)
             response = __run(driver)
             if response == "job_err":
-                print(error_color("Lỗi khi nhận job"))
+                print(error_color("[!] Lỗi khi nhận job"))
             elif response == "like_err":
-                print(error_color("Lỗi khi like"))
+                print(error_color("[!] Lỗi khi like"))
             elif response == "verify_err":
-                print(error_color("Lỗi khi xác minh job"))
+                print(error_color("[!] Lỗi khi xác minh job"))
             elif response == "success":
                 from golike import prices
-                print(success_color("Đã xác minh job thành công"))
-                print(success_color(f"Tổng tiền: {prices}đ"))
+                print(success_color("[*] Đã xác minh job thành công"))
+                print(success_color(f"[$] Tổng tiền: {prices}đ"))
             else:
-                print(error_color("Lỗi không xác định"))
+                print(error_color("[!!] Lỗi không xác định"))
             driver.quit()
             waiting_ui(delay, f"Đợi {delay}s để tiếp tục")
         except:
@@ -152,16 +160,17 @@ def __main(hide_chrome, delay):
                 driver.quit()
             except:
                 pass
-            waiting_ui(delay, f"Có lỗi không xác định hãy đợi {delay}s để tiếp tục")
+            waiting_ui(delay, f"[!!] Có lỗi không xác định hãy đợi {delay}s để tiếp tục")
             try:
                 r = requests.get("https://www.google.com/")
             except:
-                print(error_color("\n[!] Không có mạng!"))
-                input(system_color("[!] Phát hiện không có mạng, chương trình tạm dừng, chờ can thiệp, enter để tiếp tục chạy\n-> "))
+                print(error_color("\n[!!] Không có mạng!"))
+                input(system_color("[!!] Phát hiện không có mạng, chương trình tạm dừng, chờ can thiệp, enter để tiếp tục chạy\n-> "))
 
 def main_program():
-    delay = int(input(system_color("Nhập delay: ")))
-    hide_chrome = True if input(system_color("Ẩn chrome y/n?: ")).lower().strip() == "y" else False
+    delay = int(input(system_color("[?] Nhập delay: ")))
+    hide_chrome = True if input(system_color("[?] Ẩn chrome y/n?: ")).lower().strip() == "y" else False
+    print()
     while True:
         __main(hide_chrome, delay)
 

@@ -5,7 +5,7 @@ def scroll_to_down(driver: webdriver.Chrome):
     for i in range(rdn_times_scroll):
         driver.execute_script(f"window.scrollTo({i*600}, {(i+1)*600});")
         waiting_ui(random.randint(1, 3), "Đợi để tiếp tục scroll") # random wait
-        print(system_color(f"[>] Đã scroll, số lần {i+1}/{rdn_times_scroll}"))
+        print(system_color(f"[TOOL-GOLIKE-FACEBOOK-BY-PHU] Đã scroll, số lần {i+1}/{rdn_times_scroll}"))
     return ""
 
 def scroll_to_up(driver: webdriver.Chrome):
@@ -13,7 +13,7 @@ def scroll_to_up(driver: webdriver.Chrome):
     for i in range(rdn_times_scroll):
         driver.execute_script(f"window.scrollTo({i*-100}, {(i+1)*-100});")
         waiting_ui(random.randint(1, 3), "Đợi để tiếp tục scroll") # random wait
-        print(system_color(f"[>] Đã scroll, số lần {i+1}/{rdn_times_scroll}"))
+        print(system_color(f"[TOOL-GOLIKE-FACEBOOK-BY-PHU] Đã scroll, số lần {i+1}/{rdn_times_scroll}"))
     return ""
 
 def random_scroll(driver: webdriver.Chrome):
@@ -22,7 +22,7 @@ def random_scroll(driver: webdriver.Chrome):
         is_scroll_down = random.choice([True, False])
         scroll_out = scroll_to_down(driver) if is_scroll_down or i == 0 else scroll_to_up(driver)
         if "error" in scroll_out: return scroll_out
-        print(system_color(f"[>] Số lần tổng scroll {i+1}/{total_scroll}"))
+        print(system_color(f"[TOOL-GOLIKE-FACEBOOK-BY-PHU] Số lần tổng scroll {i+1}/{total_scroll}"))
     return ""
 
 def post_scroll(driver: webdriver.Chrome):

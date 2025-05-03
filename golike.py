@@ -67,12 +67,6 @@ def get_job(driver: webdriver.Chrome):
         driver.execute_script("arguments[0].scrollIntoView(true);", job_btn)
         job_btn.click()
 
-        handles = driver.window_handles
-        driver.switch_to.window(handles[1])
-        driver.close()
-        handles = driver.window_handles
-        driver.switch_to.window(handles[0])
-
         return {"success": link_job}
     except:
         return {"error": "Lỗi khi nhận job"}
@@ -112,7 +106,7 @@ def verify_job(driver: webdriver.Chrome, max_try=5):
         if "success" in response:
             return response
         else:
-            print(error_color(f"Lỗi xác minh job, thử lại lần {_+1}/{max_try}"))
+            print(error_color(f"[!] Lỗi xác minh job, thử lại lần {_+1}/{max_try}"))
             continue
     else:
         return response
